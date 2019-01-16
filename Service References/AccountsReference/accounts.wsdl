@@ -1,0 +1,1829 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://rb.b2b.is/schema/accounts/2012/06/01" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:ns0="http://rb.b2b.is/schema/commontypes/2012/06/01" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsmex="http://schemas.xmlsoap.org/ws/2004/09/mex" targetNamespace="http://rb.b2b.is/schema/accounts/2012/06/01" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy Name="urn:uuid:57a01c93-d617-11e4-a68d-fe82538baaea" visibility="public" wsu:Id="Policy2">
+    <sp:TransportBinding xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+      <wsp:Policy visibility="public">
+        <sp:AlgorithmSuite>
+          <wsp:Policy visibility="public">
+            <sp:Basic256 />
+          </wsp:Policy>
+        </sp:AlgorithmSuite>
+        <sp:IncludeTimestamp />
+        <sp:Layout>
+          <wsp:Policy visibility="public">
+            <sp:Strict />
+          </wsp:Policy>
+        </sp:Layout>
+        <sp:TransportToken>
+          <wsp:Policy visibility="public">
+            <sp:HttpsToken>
+              <sp:IssuerName />
+              <wsp:Policy visibility="public" />
+            </sp:HttpsToken>
+          </wsp:Policy>
+        </sp:TransportToken>
+      </wsp:Policy>
+    </sp:TransportBinding>
+    <sp:Wss11 xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+      <wsp:Policy visibility="public" />
+    </sp:Wss11>
+    <sp:Trust13 xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+      <wsp:Policy visibility="public">
+        <sp:RequireClientEntropy />
+        <sp:RequireServerEntropy />
+        <sp:MustSupportIssuedTokens />
+      </wsp:Policy>
+    </sp:Trust13>
+  </wsp:Policy>
+  <wsp:Policy Name="urn:uuid:57a76f94-d617-11e4-a68d-fe82538baaea" visibility="public" wsu:Id="Policy3">
+    <sp:SignedSupportingTokens xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+      <wsp:Policy visibility="public">
+        <sp:IssuedToken SubjectCategory="urn:org:federatedgovernance:security:subject-category:consumer" sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
+          <sp:IssuerName>wefewfewf</sp:IssuerName>
+          <sp:RequestSecurityTokenTemplate />
+          <wsp:Policy visibility="public">
+            <sp:RequireInternalReference />
+          </wsp:Policy>
+        </sp:IssuedToken>
+      </wsp:Policy>
+    </sp:SignedSupportingTokens>
+  </wsp:Policy>
+  <wsdl:types>
+    <xs:schema xmlns:tns="http://rb.b2b.is/schema/commontypes/2012/06/01" elementFormDefault="qualified" targetNamespace="http://rb.b2b.is/schema/commontypes/2012/06/01" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:complexType name="EchoInfo">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="Name" type="xs:string" />
+        </xs:sequence>
+        <xs:attribute name="SessionId" type="xs:string" />
+      </xs:complexType>
+      <xs:simpleType name="Status">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Open" />
+          <xs:enumeration value="Closed" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:complexType name="AddressInfo">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="AddressLine1" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="AddressLine2" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="PostCodeNumber" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="City" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Region" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Country" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="NameAndId">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="PersonId" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Name" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="Currency">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="Code" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Name" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="Interest">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="1" name="Rate" type="xs:decimal" />
+          <xs:element minOccurs="1" maxOccurs="1" name="InterestEarned" type="xs:decimal" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="Overdraft">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="1" name="ExpiryDate" type="xs:date" />
+          <xs:element minOccurs="1" maxOccurs="1" name="Limit" type="xs:decimal" />
+          <xs:element minOccurs="1" maxOccurs="1" name="Rate" type="xs:decimal" />
+          <xs:element minOccurs="1" maxOccurs="1" name="InterestAccrued" type="xs:decimal" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="StatementGenerationFrequencyValue">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="Code" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Description" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="Address">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="Name" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="AddressLine1" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="AddressLine2" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="PostCodeNumber" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="City" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Region" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Country" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="PhoneNumber">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="CountryCode" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Number" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="InterestCategory">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="Code" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Name" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="Period">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="1" name="Count" type="xs:int" />
+          <xs:element minOccurs="1" maxOccurs="1" name="Unit" type="tns:PeriodUnit" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="PeriodUnit">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Days" />
+          <xs:enumeration value="Months" />
+          <xs:enumeration value="Years" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="FixedDepositType">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="NonFixed" />
+          <xs:enumeration value="FixedAccount" />
+          <xs:enumeration value="FixedPerDeposit" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:schema>
+    <xs:schema elementFormDefault="qualified" targetNamespace="http://rb.b2b.is/schema/accounts/2012/06/01" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="Echo">
+        <xs:complexType />
+      </xs:element>
+      <xs:element name="EchoResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element xmlns:q1="http://rb.b2b.is/schema/commontypes/2012/06/01" minOccurs="0" maxOccurs="1" name="EchoInfo" type="q1:EchoInfo" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CustomFaultException">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GeneralErrorText" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="GeneralErrorCode" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="BanksErrorText" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="BanksErrorCode" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="SessionID" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetAccountStatement">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="Query" type="tns:GetAccountStatementQuery" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="GetAccountStatementQuery">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="AgreementId" type="xs:string" />
+          <xs:element minOccurs="1" maxOccurs="1" name="TransactionDateFrom" type="xs:date" />
+          <xs:element minOccurs="1" maxOccurs="1" name="TransactionDateTo" type="xs:date" />
+          <xs:element minOccurs="0" maxOccurs="1" name="AmountFrom" type="xs:decimal" />
+          <xs:element minOccurs="0" maxOccurs="1" name="AmountTo" type="xs:decimal" />
+          <xs:element minOccurs="0" maxOccurs="1" name="SearchText" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="StatementType" type="tns:StatementType" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Paging" type="tns:Paging" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Ordering" type="tns:ArrayOfOrderBy" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="StatementType">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="All" />
+          <xs:enumeration value="Deposits" />
+          <xs:enumeration value="Withdrawals" />
+          <xs:enumeration value="Debetcard" />
+          <xs:enumeration value="Internetbank" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:complexType name="Paging">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="1" name="Page" type="xs:int" />
+          <xs:element minOccurs="1" maxOccurs="1" name="PageSize" type="xs:int" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ArrayOfOrderBy">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="Order" type="tns:OrderBy" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="OrderBy">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="ColumnName" type="xs:string" />
+        </xs:sequence>
+        <xs:attribute default="Desc" name="Direction" type="tns:SortDirection" />
+      </xs:complexType>
+      <xs:simpleType name="SortDirection">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Asc" />
+          <xs:enumeration value="Desc" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="GetAccountStatementResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="AccountStatement" type="tns:GetAccountStatementResult" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="GetAccountStatementResult">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="AccountStatement" type="tns:AccountStatement" />
+          <xs:element minOccurs="0" maxOccurs="1" name="PagingInfo" type="tns:PagingInfo" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="AccountStatement">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="AgreementId" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Currency" type="xs:string" />
+          <xs:element minOccurs="1" maxOccurs="1" name="OverdraftAmount" type="xs:decimal" />
+          <xs:element minOccurs="1" maxOccurs="1" name="BalanceAmount" type="xs:decimal" />
+          <xs:element minOccurs="1" maxOccurs="1" name="AvailableAmount" type="xs:decimal" />
+          <xs:element xmlns:q2="http://rb.b2b.is/schema/commontypes/2012/06/01" minOccurs="1" maxOccurs="1" name="Status" type="q2:Status" />
+          <xs:element minOccurs="1" maxOccurs="1" name="TotalAmountWaiting" type="xs:decimal" />
+          <xs:element minOccurs="0" maxOccurs="1" name="IBAN" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="CustomAccountName" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="FinancialEvents" type="tns:ArrayOfFinancialEvent" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ArrayOfFinancialEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="FinancialEvents" type="tns:FinancialEvent" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="FinancialEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="EventId" type="xs:string" />
+          <xs:element minOccurs="1" maxOccurs="1" name="EventTimeStamp" type="xs:date" />
+          <xs:element minOccurs="0" maxOccurs="1" name="ValueDate" type="xs:date" />
+          <xs:element minOccurs="0" maxOccurs="1" name="BatchNumber" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="RedeemingBank" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="TransactionCode" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="TransactionNumber" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Reference" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="ReferenceLong" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="BillNumber" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="CategoryCode" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Category" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="ReferenceDescription" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="PayorId" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="ExternalId" type="xs:string" />
+          <xs:element minOccurs="1" maxOccurs="1" name="Amount" type="xs:decimal" />
+          <xs:element minOccurs="1" maxOccurs="1" name="BalanceAmount" type="xs:decimal" />
+          <xs:element minOccurs="0" maxOccurs="1" name="CurrencyId" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="AmountLcy" type="xs:decimal" />
+          <xs:element minOccurs="0" maxOccurs="1" name="DueDate" type="xs:date" />
+          <xs:element minOccurs="0" maxOccurs="1" name="BenefactorId" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="EvnetGroupId" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="PagingInfo">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="1" name="Page" type="xs:int" />
+          <xs:element minOccurs="1" maxOccurs="1" name="PageSize" type="xs:int" />
+          <xs:element minOccurs="1" maxOccurs="1" name="TotalRows" type="xs:int" />
+          <xs:element minOccurs="1" maxOccurs="1" name="TotalPages" type="xs:int" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetValueDateBalance">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="Query" type="tns:GetValueDateBalanceQuery" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="GetValueDateBalanceQuery">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="AgreementId" type="xs:string" />
+          <xs:element minOccurs="1" maxOccurs="1" name="ValueDate" type="xs:date" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetValueDateBalanceResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetValueDateBalanceResult" type="tns:GetValueDateBalanceResult" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="GetValueDateBalanceResult">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="1" name="ValueDate" type="xs:date" />
+          <xs:element minOccurs="1" maxOccurs="1" name="ValueDateBalanceAmount" type="xs:decimal" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetAccounts">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="Query" type="tns:GetAccountsQuery" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="GetAccountsQuery">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="AccountIDs" type="tns:ArrayOfString" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ArrayOfString">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="AccountID" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetAccountsResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetAccountsResult" type="tns:GetAccountsResult" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="GetAccountsResult">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="Accounts" type="tns:ArrayOfAccountInfo" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Errors" type="tns:ArrayOfAccountError" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ArrayOfAccountInfo">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="Account" type="tns:AccountInfo" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="AccountInfo">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="Account" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Currency" type="xs:string" />
+          <xs:element minOccurs="1" maxOccurs="1" name="Overdraft" type="xs:decimal" />
+          <xs:element minOccurs="1" maxOccurs="1" name="Balance" type="xs:decimal" />
+          <xs:element minOccurs="1" maxOccurs="1" name="AvailableAmount" type="xs:decimal" />
+          <xs:element xmlns:q3="http://rb.b2b.is/schema/commontypes/2012/06/01" minOccurs="1" maxOccurs="1" name="Status" type="q3:Status" />
+          <xs:element minOccurs="1" maxOccurs="1" name="TotalAmountWaiting" type="xs:decimal" />
+          <xs:element minOccurs="0" maxOccurs="1" name="IBAN" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="AccountOwnerID" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="AccountName" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="CustomAccountName" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="InterestCode" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ArrayOfAccountError">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="Error" type="tns:AccountError" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="AccountError">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="AccountID" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Error" type="tns:Error" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="Error">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="Code" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Message" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetUserAccounts">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="Query" type="tns:GetUserAccountsQuery" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="GetUserAccountsQuery">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="PersonID" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Status" type="tns:AccountStatusFilter" />
+          <xs:element minOccurs="0" maxOccurs="1" name="AccessFilter" type="tns:AccountAccessFilter" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="AccountStatusFilter">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Open" />
+          <xs:enumeration value="Closed" />
+          <xs:enumeration value="All" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="AccountAccessFilter">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Statement" />
+          <xs:enumeration value="Withdraw" />
+          <xs:enumeration value="All" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="GetUserAccountsResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetUserAccountsResult" type="tns:GetUserAccountsResult" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="GetUserAccountsResult">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="Accounts" type="tns:ArrayOfAccountInfo" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetAccount">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="Account" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetAccountResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="AccountInfo" type="tns:AccountInfo" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetDepositAccount">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="Query" type="tns:DepositAccountQuery" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="DepositAccountQuery">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="AccountID" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="AccountOwnerID" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetDepositAccountResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="DepositAccountInfo" type="tns:DepositAccountInfo" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="DepositAccountInfo">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="AccountID" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="AccountOwner" type="tns:AccountOwnerInfo" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="AccountOwnerInfo">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="AccountOwnerID" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Name" type="xs:string" />
+          <xs:element xmlns:q4="http://rb.b2b.is/schema/commontypes/2012/06/01" minOccurs="0" maxOccurs="1" name="Address" type="q4:AddressInfo" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetAccountDetail">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="Query" type="tns:GetAccountDetailQuery" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="GetAccountDetailQuery">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="AccountId" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="OwnerId" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetAccountDetailResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="AccountDetailInfo" type="tns:AccountDetailInfo" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="AccountDetailInfo">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="AccountId" type="xs:string" />
+          <xs:element xmlns:q5="http://rb.b2b.is/schema/commontypes/2012/06/01" minOccurs="0" maxOccurs="1" name="Owner" type="q5:NameAndId" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Agents" type="tns:ArrayOfAgentInfo" />
+          <xs:element xmlns:q6="http://rb.b2b.is/schema/commontypes/2012/06/01" minOccurs="0" maxOccurs="1" name="Currency" type="q6:Currency" />
+          <xs:element minOccurs="0" maxOccurs="1" name="IBAN" type="xs:string" />
+          <xs:element minOccurs="1" maxOccurs="1" name="Balance" type="xs:decimal" />
+          <xs:element minOccurs="1" maxOccurs="1" name="IsActive" type="xs:boolean" />
+          <xs:element minOccurs="1" maxOccurs="1" name="CommencementDate" type="xs:date" />
+          <xs:element minOccurs="0" maxOccurs="1" name="LatestBookingDate" type="xs:date" />
+          <xs:element minOccurs="0" maxOccurs="1" name="SWIFT" type="xs:string" />
+          <xs:element xmlns:q7="http://rb.b2b.is/schema/commontypes/2012/06/01" minOccurs="0" maxOccurs="1" name="Interest" type="q7:Interest" />
+          <xs:element xmlns:q8="http://rb.b2b.is/schema/commontypes/2012/06/01" minOccurs="0" maxOccurs="1" name="Overdraft" type="q8:Overdraft" />
+          <xs:element minOccurs="0" maxOccurs="1" name="StatementFrequency" type="tns:StatementFrequency" />
+          <xs:element minOccurs="0" maxOccurs="1" name="AvailableAmount" type="xs:decimal" />
+          <xs:element minOccurs="0" maxOccurs="1" name="NotificationCode" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="InterestCategoryCode" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="OwnerType" type="tns:OwnerType" />
+          <xs:element minOccurs="0" maxOccurs="1" name="ChargeCategoryCode" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="CAD" type="xs:integer" />
+          <xs:element minOccurs="0" maxOccurs="1" name="LegalCounselCode" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Restrictions" type="tns:Restrictions" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ArrayOfAgentInfo">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="AgentInfo" type="tns:AgentInfo" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="AgentInfo">
+        <xs:sequence>
+          <xs:element xmlns:q9="http://rb.b2b.is/schema/commontypes/2012/06/01" minOccurs="0" maxOccurs="1" name="Agent" type="q9:NameAndId" />
+          <xs:element minOccurs="1" maxOccurs="1" name="Type" type="tns:AgentType" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="AgentType">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Deposit" />
+          <xs:enumeration value="Withdrawal" />
+          <xs:enumeration value="Prokura" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:complexType name="StatementFrequency">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="StatementFrequencyCode" type="xs:string" />
+          <xs:element minOccurs="1" maxOccurs="1" name="IsPrinted" type="xs:boolean" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="OwnerType">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="BankEmployee" />
+          <xs:enumeration value="Others" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:complexType name="Restrictions">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="1" name="IsChequeBlocked" type="xs:boolean" />
+          <xs:element minOccurs="1" maxOccurs="1" name="IsABGiroBlocked" type="xs:boolean" />
+          <xs:element minOccurs="1" maxOccurs="1" name="IsDepositReferenceRequired" type="xs:boolean" />
+          <xs:element minOccurs="1" maxOccurs="1" name="IsWithdrawerIdRequired" type="xs:boolean" />
+          <xs:element minOccurs="1" maxOccurs="1" name="IsDepositBlocked" type="xs:boolean" />
+          <xs:element minOccurs="1" maxOccurs="1" name="IsOverdraftBlocked" type="xs:boolean" />
+          <xs:element minOccurs="1" maxOccurs="1" name="IsDepositorIdRequired" type="xs:boolean" />
+          <xs:element minOccurs="1" maxOccurs="1" name="IsClaimDepositingRestricted" type="xs:boolean" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetUnusedAccountIds">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="Query" type="tns:GetUnusedAccountIdsQuery" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="GetUnusedAccountIdsQuery">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="ProductCode" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="MaxCount" type="xs:integer" />
+          <xs:element minOccurs="0" maxOccurs="1" name="FromAccountId" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetUnusedAccountIdsResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetUnusedAccountIdsResult" type="tns:GetUnusedAccountIdsResult" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="GetUnusedAccountIdsResult">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="LowestAccountId" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="HighestAccountId" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="InterestCategoryCode" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="AccountIds" type="tns:ArrayOfString" />
+          <xs:element minOccurs="0" maxOccurs="1" name="TotalRows" type="xs:integer" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="CreateAccount">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="NewAccount" type="tns:NewAccount" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="NewAccount">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="AgreementId" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="OwnerId" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="ProductCode" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="CAD" type="xs:integer" />
+          <xs:element minOccurs="0" maxOccurs="1" name="CurrencyCode" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="DepositingAccountId" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="SecurityCode" type="xs:integer" />
+          <xs:element minOccurs="0" maxOccurs="1" name="TimeDepositPeriod" type="tns:TimeDepositPeriod" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="TimeDepositPeriod">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="None" />
+          <xs:enumeration value="3Months" />
+          <xs:enumeration value="6Months" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="CreateAccountResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CreateAccountResult" type="tns:CreateAccountResult" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="CreateAccountResult">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="AgreementId" type="xs:string" />
+          <xs:element xmlns:q10="http://rb.b2b.is/schema/commontypes/2012/06/01" minOccurs="0" maxOccurs="1" name="Owner" type="q10:NameAndId" />
+          <xs:element minOccurs="1" maxOccurs="1" name="InterestRate" type="xs:decimal" />
+          <xs:element minOccurs="0" maxOccurs="1" name="OverdraftInterestRate" type="xs:decimal" />
+          <xs:element minOccurs="0" maxOccurs="1" name="ProductName" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="CurrencyName" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Warning" type="tns:CreateAccountWarning" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="CreateAccountWarning">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="SecurityCodeWarning" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="AlterAccount">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="AccountInfo" type="tns:AlterAccount" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="AlterAccount">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="AgreementId" type="xs:string" />
+          <xs:choice minOccurs="1" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" name="OwnerId" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="OwnerIdSynonym" type="xs:string" />
+          </xs:choice>
+          <xs:element minOccurs="0" maxOccurs="1" name="NotificationCode" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="StatementFrequency" type="tns:StatementFrequency" />
+          <xs:choice minOccurs="1" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" name="CurrentAccount" type="tns:AlterCurrentAccount" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ForeignSavingsAccount" type="tns:AlterForeignSavingsAccount" />
+            <xs:element minOccurs="0" maxOccurs="1" name="SavingsAccount" type="tns:AlterSavingsAccount" />
+          </xs:choice>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="AlterCurrentAccount">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="1" name="OwnerType" type="tns:OwnerType" />
+          <xs:element minOccurs="0" maxOccurs="1" name="ChargeCategoryCode" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="CAD" type="xs:integer" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Restrictions" type="tns:Restrictions" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="AlterForeignSavingsAccount">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="TimeDepositPeriod" type="tns:TimeDepositPeriod" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="AlterSavingsAccount">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="1" name="IsWithdrawalFeeExempted" type="xs:boolean" />
+          <xs:element minOccurs="1" maxOccurs="1" name="IsWithdrawalLimited" type="xs:boolean" />
+          <xs:element minOccurs="0" maxOccurs="1" name="TimeDepositReleaseRule" type="tns:TimeDepositReleaseRule" />
+          <xs:element minOccurs="0" maxOccurs="1" name="DepositingAccountId" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="TimeDepositReleaseRule">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="RegularSavings" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="AlterAccountResponse">
+        <xs:complexType />
+      </xs:element>
+      <xs:element name="GetStatementGenerationFrequency">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="Query" type="tns:GetStatementGenerationFrequencyQuery" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="GetStatementGenerationFrequencyQuery">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="AgreementId" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetStatementGenerationFrequencyResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetStatementGenerationFrequencyResult" type="tns:GetStatementGenerationFrequencyResult" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="GetStatementGenerationFrequencyResult">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="StatementGenerationFrequencyValues" type="tns:ArrayOfStatementGenerationFrequencyValue" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ArrayOfStatementGenerationFrequencyValue">
+        <xs:sequence>
+          <xs:element xmlns:q11="http://rb.b2b.is/schema/commontypes/2012/06/01" minOccurs="0" maxOccurs="unbounded" name="StatementGenerationFrequencyValue" type="q11:StatementGenerationFrequencyValue" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetAccountStatementDetail">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="Query" type="tns:GetAccountStatementDetailQuery" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="GetAccountStatementDetailQuery">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="EventId" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetAccountStatementDetailResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetAccountStatementDetailResult" type="tns:GetAccountStatementDetailResult" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="GetAccountStatementDetailResult">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="AccountStatementDetail" type="tns:AccountStatementDetail" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="AccountStatementDetail">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="WithdrawalAccount" type="tns:AccountMinimalInfo" />
+          <xs:element minOccurs="0" maxOccurs="1" name="DepositingAccount" type="tns:AccountMinimalInfo" />
+          <xs:element minOccurs="1" maxOccurs="1" name="EventTimeStamp" type="xs:date" />
+          <xs:element minOccurs="0" maxOccurs="1" name="ValueDate" type="xs:date" />
+          <xs:element minOccurs="0" maxOccurs="1" name="BatchNumber" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="TransactionCode" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="TransactionNumber" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Reference" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="ReferenceLong" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="BillNumber" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="CategoryCode" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Category" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="ReferenceDescription" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="ExternalId" type="xs:string" />
+          <xs:element minOccurs="1" maxOccurs="1" name="Amount" type="xs:decimal" />
+          <xs:element minOccurs="1" maxOccurs="1" name="Balance" type="xs:decimal" />
+          <xs:element minOccurs="0" maxOccurs="1" name="CurrencyId" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="AmountLcy" type="xs:decimal" />
+          <xs:element minOccurs="0" maxOccurs="1" name="DueDate" type="xs:date" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Receipt" type="tns:ArrayOfCommunication" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="AccountMinimalInfo">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="AgreementId" type="xs:string" />
+          <xs:element xmlns:q12="http://rb.b2b.is/schema/commontypes/2012/06/01" minOccurs="0" maxOccurs="1" name="Owner" type="q12:NameAndId" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ArrayOfCommunication">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="Communication" type="tns:Communication" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="Communication">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="IsPostalMail" type="xs:boolean" />
+          <xs:element xmlns:q13="http://rb.b2b.is/schema/commontypes/2012/06/01" minOccurs="0" maxOccurs="1" name="ReceiverAddress" type="q13:Address" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Email" type="xs:string" />
+          <xs:element xmlns:q14="http://rb.b2b.is/schema/commontypes/2012/06/01" minOccurs="0" maxOccurs="1" name="SMS" type="q14:PhoneNumber" />
+        </xs:sequence>
+        <xs:attribute default="is-IS" name="Language" type="xs:string" />
+      </xs:complexType>
+      <xs:element name="CancelAccount">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CancelAccountInfo" type="tns:CancelAccountInfo" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="CancelAccountInfo">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="AgreementId" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="OwnerId" type="xs:string" />
+          <xs:element minOccurs="1" maxOccurs="1" name="AbortIfDepositingAccount" type="xs:boolean" />
+          <xs:element minOccurs="1" maxOccurs="1" name="AbortIfDebetCardConnected" type="xs:boolean" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="CancelAccountResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CancelAccountResult" type="tns:CancelAccountResult" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="CancelAccountResult">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="AgreementId" type="xs:string" />
+          <xs:element xmlns:q15="http://rb.b2b.is/schema/commontypes/2012/06/01" minOccurs="0" maxOccurs="1" name="Owner" type="q15:NameAndId" />
+          <xs:element minOccurs="0" maxOccurs="1" name="WithdrawalAmount" type="xs:decimal" />
+          <xs:element minOccurs="0" maxOccurs="1" name="CurrencyCode" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="AlterAccountCollectionProcess">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="AlterAccountCollectionProcessInfo" type="tns:AlterAccountCollectionProcessInfo" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="AlterAccountCollectionProcessInfo">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="AgreementId" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="OwnerId" type="xs:string" />
+          <xs:element minOccurs="1" maxOccurs="1" name="IsInCollectionProcess" type="xs:boolean" />
+          <xs:element minOccurs="0" maxOccurs="1" name="LegalCounselCode" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="InterestCategoryCode" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="AlterAccountCollectionProcessResponse">
+        <xs:complexType />
+      </xs:element>
+      <xs:element name="AlterAccountWithdrawalPermissions">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="AlterAccountWithdrawalPermissionsInfo" type="tns:AlterAccountWithdrawalPermissionsInfo" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="AlterAccountWithdrawalPermissionsInfo">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="AgreementId" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="OwnerId" type="xs:string" />
+          <xs:element minOccurs="1" maxOccurs="1" name="IsUnrestrictedWithdrawalPermitted" type="xs:boolean" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="AlterAccountWithdrawalPermissionsResponse">
+        <xs:complexType />
+      </xs:element>
+      <xs:element name="CancelBankbook">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CancelBankbook" type="tns:CancelBankbook" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="CancelBankbook">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="AgreementId" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="OwnerId" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="CancelBankbookResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CancelBankbookResult" type="tns:CancelBankbookResult" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="CancelBankbookResult" />
+      <xs:element name="AlterAccountIdentifier">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="AlterAccountIdentifierInfo" type="tns:AlterAccountIdentifierInfo" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="AlterAccountIdentifierInfo">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="AgreementId" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="OwnerId" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Identifier" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="AlterAccountIdentifierResponse">
+        <xs:complexType />
+      </xs:element>
+      <xs:element name="AlterAccountOverdraftLimit">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="AlterAccountOverdraftLimitInfo" type="tns:AlterAccountOverdraftLimitInfo" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="AlterAccountOverdraftLimitInfo">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="AgreementId" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="OwnerId" type="xs:string" />
+          <xs:element minOccurs="1" maxOccurs="1" name="OverdraftLimit" type="xs:decimal" />
+          <xs:element minOccurs="1" maxOccurs="1" name="EffectiveDate" type="xs:date" />
+          <xs:element minOccurs="0" maxOccurs="1" name="ExpiryDate" type="xs:date" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="AlterAccountOverdraftLimitResponse">
+        <xs:complexType />
+      </xs:element>
+      <xs:element name="AlterAccountInterest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="AlterAccountInterestInfo" type="tns:AlterAccountInterestInfo" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="AlterAccountInterestInfo">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="AgreementId" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="OwnerId" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="InterestCategoryCode" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="ContractualInterest" type="tns:ContractualInterest" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ContractualInterest">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="1" name="InterestRate" type="xs:decimal" />
+          <xs:element minOccurs="0" maxOccurs="1" name="OverdraftInterestRate" type="xs:decimal" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="AlterAccountInterestResponse">
+        <xs:complexType />
+      </xs:element>
+      <xs:element name="AlterAccountInterestEarned">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="InterestEarnedInfo" type="tns:InterestEarnedInfo" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="InterestEarnedInfo">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="AgreementId" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="OwnerId" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="InterestEarnedChange" type="tns:AmountChange" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="AmountChange">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="1" name="Amount" type="xs:decimal" />
+          <xs:element minOccurs="1" maxOccurs="1" name="Type" type="tns:ChangeType" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="ChangeType">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Addition" />
+          <xs:enumeration value="Deduction" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="AlterAccountInterestEarnedResponse">
+        <xs:complexType />
+      </xs:element>
+      <xs:element name="AlterAccountImminentAmount">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="AlterAccountImminentAmountInfo" type="tns:AlterAccountImminentAmountInfo" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="AlterAccountImminentAmountInfo">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="AgreementId" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="OwnerId" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="ImminentAmountChange" type="tns:ImminentAmountChange" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ImminentAmountChange">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="1" name="Amount" type="xs:decimal" />
+          <xs:element minOccurs="0" maxOccurs="1" name="CurrencyCode" type="xs:string" />
+          <xs:element minOccurs="1" maxOccurs="1" name="Type" type="tns:ChangeType" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="AlterAccountImminentAmountResponse">
+        <xs:complexType />
+      </xs:element>
+      <xs:element name="GetInterestCategoryDetail">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="Query" type="tns:GetInterestCategoryDetailQuery" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="GetInterestCategoryDetailQuery">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="Ledger" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="InterestCategoryCode" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="TimeDepositPeriod" type="tns:TimeDepositPeriod" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetInterestCategoryDetailResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetInterestCategoryDetailResult" type="tns:GetInterestCategoryDetailResult" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="GetInterestCategoryDetailResult">
+        <xs:sequence>
+          <xs:element xmlns:q16="http://rb.b2b.is/schema/commontypes/2012/06/01" minOccurs="0" maxOccurs="1" name="InterestCategory" type="q16:InterestCategory" />
+          <xs:element xmlns:q17="http://rb.b2b.is/schema/commontypes/2012/06/01" minOccurs="0" maxOccurs="1" name="Currency" type="q17:Currency" />
+          <xs:element minOccurs="0" maxOccurs="1" name="ChargeCategoryCode" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="WithdrawalFeeRate" type="xs:decimal" />
+          <xs:element minOccurs="0" maxOccurs="1" name="InterestInfo" type="tns:AccountInterest" />
+          <xs:element minOccurs="0" maxOccurs="1" name="OverdraftInterestInfo" type="tns:AccountInterest" />
+          <xs:element minOccurs="0" maxOccurs="1" name="TimeDeposit" type="tns:TimeDeposit" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Indexation" type="tns:Indexation" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="AccountInterest">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="Brackets" type="tns:ArrayOfBracket" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ArrayOfBracket">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="Bracket" type="tns:Bracket" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="Bracket">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="Id" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Interest" type="tns:BracketInterest" />
+          <xs:element minOccurs="0" maxOccurs="1" name="AmountBased" type="tns:AmountBased" />
+          <xs:element minOccurs="0" maxOccurs="1" name="TimeBased" type="tns:TimeBased" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="BracketInterest">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="1" name="Rate" type="xs:decimal" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="AmountBased">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="MaximumAmount" type="xs:decimal" />
+          <xs:element minOccurs="0" maxOccurs="1" name="MinimumAmount" type="xs:decimal" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="TimeBased">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="MaximumDays" type="xs:int" />
+          <xs:element minOccurs="0" maxOccurs="1" name="MinimumDays" type="xs:int" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="TimeDeposit">
+        <xs:sequence>
+          <xs:element xmlns:q18="http://rb.b2b.is/schema/commontypes/2012/06/01" minOccurs="0" maxOccurs="1" name="Period" type="q18:Period" />
+          <xs:element xmlns:q19="http://rb.b2b.is/schema/commontypes/2012/06/01" minOccurs="0" maxOccurs="1" name="FixedDepositType" type="q19:FixedDepositType" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="Indexation">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="IndexCategoryCode" type="xs:int" />
+          <xs:element minOccurs="0" maxOccurs="1" name="IndexCategory" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetNotificationCodes">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="Query" type="tns:GetNotificationCodesQuery" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="GetNotificationCodesQuery">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="NotificationCode" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetNotificationCodesResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetNotificationCodesResult" type="tns:GetNotificationCodesResult" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="GetNotificationCodesResult">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="NotificationCodes" type="tns:ArrayOfNotificationCode" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ArrayOfNotificationCode">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="NotificationCode" type="tns:NotificationCode" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="NotificationCode">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="Code" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Description" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetDisposableAmounts">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="Query" type="tns:GetDisposableAmountsQuery" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="GetDisposableAmountsQuery">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="AgreementId" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="OwnerId" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetDisposableAmountsResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetDisposableAmountsResult" type="tns:GetDisposableAmountsResult" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="GetDisposableAmountsResult">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="AgreementId" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="DisposableAmounts" type="tns:ArrayOfDisposableAmountInfo" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ArrayOfDisposableAmountInfo">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="DisposableAmountInfo" type="tns:DisposableAmountInfo" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="DisposableAmountInfo">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="1" name="Amount" type="xs:decimal" />
+          <xs:element minOccurs="1" maxOccurs="1" name="FromDate" type="xs:date" />
+          <xs:element minOccurs="0" maxOccurs="1" name="ToDate" type="xs:date" />
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="IAccounts_Echo_CustomFaultException_FaultMessage">
+    <wsdl:part name="detail" element="tns:CustomFaultException" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_AlterAccountInterestEarned_CustomFaultException_FaultMessage">
+    <wsdl:part name="detail" element="tns:CustomFaultException" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_CreateAccount_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateAccountResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_GetDisposableAmounts_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDisposableAmounts" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_GetDepositAccount_CustomFaultException_FaultMessage">
+    <wsdl:part name="detail" element="tns:CustomFaultException" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_CancelBankbook_CustomFaultException_FaultMessage">
+    <wsdl:part name="detail" element="tns:CustomFaultException" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_AlterAccountCollectionProcess_InputMessage">
+    <wsdl:part name="parameters" element="tns:AlterAccountCollectionProcess" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_GetAccountDetail_CustomFaultException_FaultMessage">
+    <wsdl:part name="detail" element="tns:CustomFaultException" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_CancelAccount_CustomFaultException_FaultMessage">
+    <wsdl:part name="detail" element="tns:CustomFaultException" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_AlterAccountIdentifier_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AlterAccountIdentifierResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_CreateAccount_CustomFaultException_FaultMessage">
+    <wsdl:part name="detail" element="tns:CustomFaultException" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_GetNotificationCodes_CustomFaultException_FaultMessage">
+    <wsdl:part name="detail" element="tns:CustomFaultException" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_GetAccountStatement_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAccountStatement" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_AlterAccountWithdrawalPermissions_InputMessage">
+    <wsdl:part name="parameters" element="tns:AlterAccountWithdrawalPermissions" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_AlterAccountImminentAmount_CustomFaultException_FaultMessage">
+    <wsdl:part name="detail" element="tns:CustomFaultException" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_CancelBankbook_InputMessage">
+    <wsdl:part name="parameters" element="tns:CancelBankbook" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_GetDisposableAmounts_CustomFaultException_FaultMessage">
+    <wsdl:part name="detail" element="tns:CustomFaultException" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_GetValueDateBalance_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetValueDateBalance" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_AlterAccountInterestEarned_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AlterAccountInterestEarnedResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_GetAccounts_CustomFaultException_FaultMessage">
+    <wsdl:part name="detail" element="tns:CustomFaultException" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_GetAccountStatement_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAccountStatementResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_AlterAccountInterest_InputMessage">
+    <wsdl:part name="parameters" element="tns:AlterAccountInterest" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_GetUserAccounts_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserAccountsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_GetInterestCategoryDetail_CustomFaultException_FaultMessage">
+    <wsdl:part name="detail" element="tns:CustomFaultException" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_GetAccount_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAccount" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_GetUnusedAccountIds_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUnusedAccountIdsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_AlterAccount_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AlterAccountResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_AlterAccountIdentifier_InputMessage">
+    <wsdl:part name="parameters" element="tns:AlterAccountIdentifier" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_GetDisposableAmounts_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDisposableAmountsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_GetDepositAccount_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDepositAccount" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_AlterAccountWithdrawalPermissions_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AlterAccountWithdrawalPermissionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_Echo_InputMessage">
+    <wsdl:part name="parameters" element="tns:Echo" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_GetStatementGenerationFrequency_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetStatementGenerationFrequencyResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_GetValueDateBalance_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetValueDateBalanceResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_GetAccountStatementDetail_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAccountStatementDetailResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_GetStatementGenerationFrequency_CustomFaultException_FaultMessage">
+    <wsdl:part name="detail" element="tns:CustomFaultException" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_AlterAccountCollectionProcess_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AlterAccountCollectionProcessResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_AlterAccountInterest_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AlterAccountInterestResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_GetAccountDetail_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAccountDetailResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_GetAccount_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAccountResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_GetAccounts_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAccounts" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_GetUserAccounts_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserAccounts" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_AlterAccountInterestEarned_InputMessage">
+    <wsdl:part name="parameters" element="tns:AlterAccountInterestEarned" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_AlterAccountInterest_CustomFaultException_FaultMessage">
+    <wsdl:part name="detail" element="tns:CustomFaultException" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_AlterAccountImminentAmount_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AlterAccountImminentAmountResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_AlterAccount_CustomFaultException_FaultMessage">
+    <wsdl:part name="detail" element="tns:CustomFaultException" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_Echo_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EchoResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_GetAccountStatement_CustomFaultException_FaultMessage">
+    <wsdl:part name="detail" element="tns:CustomFaultException" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_GetAccountStatementDetail_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAccountStatementDetail" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_GetUnusedAccountIds_CustomFaultException_FaultMessage">
+    <wsdl:part name="detail" element="tns:CustomFaultException" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_GetUnusedAccountIds_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUnusedAccountIds" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_CancelAccount_InputMessage">
+    <wsdl:part name="parameters" element="tns:CancelAccount" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_AlterAccountOverdraftLimit_InputMessage">
+    <wsdl:part name="parameters" element="tns:AlterAccountOverdraftLimit" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_AlterAccountOverdraftLimit_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AlterAccountOverdraftLimitResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_AlterAccountCollectionProcess_CustomFaultException_FaultMessage">
+    <wsdl:part name="detail" element="tns:CustomFaultException" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_AlterAccountOverdraftLimit_CustomFaultException_FaultMessage">
+    <wsdl:part name="detail" element="tns:CustomFaultException" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_GetAccountStatementDetail_CustomFaultException_FaultMessage">
+    <wsdl:part name="detail" element="tns:CustomFaultException" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_GetAccount_CustomFaultException_FaultMessage">
+    <wsdl:part name="detail" element="tns:CustomFaultException" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_GetNotificationCodes_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetNotificationCodes" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_GetStatementGenerationFrequency_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetStatementGenerationFrequency" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_AlterAccountWithdrawalPermissions_CustomFaultException_FaultMessage">
+    <wsdl:part name="detail" element="tns:CustomFaultException" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_GetUserAccounts_CustomFaultException_FaultMessage">
+    <wsdl:part name="detail" element="tns:CustomFaultException" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_CreateAccount_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateAccount" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_GetAccounts_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAccountsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_GetAccountDetail_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAccountDetail" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_AlterAccountImminentAmount_InputMessage">
+    <wsdl:part name="parameters" element="tns:AlterAccountImminentAmount" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_GetDepositAccount_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDepositAccountResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_CancelBankbook_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CancelBankbookResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_AlterAccountIdentifier_CustomFaultException_FaultMessage">
+    <wsdl:part name="detail" element="tns:CustomFaultException" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_GetInterestCategoryDetail_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetInterestCategoryDetail" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_AlterAccount_InputMessage">
+    <wsdl:part name="parameters" element="tns:AlterAccount" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_GetValueDateBalance_CustomFaultException_FaultMessage">
+    <wsdl:part name="detail" element="tns:CustomFaultException" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_CancelAccount_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CancelAccountResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_GetNotificationCodes_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetNotificationCodesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccounts_GetInterestCategoryDetail_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetInterestCategoryDetailResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IAccounts">
+    <wsdl:operation name="Echo">
+      <wsdl:input wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/Echo" message="tns:IAccounts_Echo_InputMessage" />
+      <wsdl:output wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/EchoResponse" message="tns:IAccounts_Echo_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/Echo" name="CustomFaultException" message="tns:IAccounts_Echo_CustomFaultException_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountStatement">
+      <wsdl:input wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/GetAccountStatement" message="tns:IAccounts_GetAccountStatement_InputMessage" />
+      <wsdl:output wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/GetAccountStatementResponse" message="tns:IAccounts_GetAccountStatement_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/GetAccountStatement" name="CustomFaultException" message="tns:IAccounts_GetAccountStatement_CustomFaultException_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetValueDateBalance">
+      <wsdl:input wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/GetValueDateBalance" message="tns:IAccounts_GetValueDateBalance_InputMessage" />
+      <wsdl:output wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/GetValueDateBalanceResult" message="tns:IAccounts_GetValueDateBalance_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/GetValueDateBalance" name="CustomFaultException" message="tns:IAccounts_GetValueDateBalance_CustomFaultException_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccounts">
+      <wsdl:input wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/GetAccounts" message="tns:IAccounts_GetAccounts_InputMessage" />
+      <wsdl:output wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/GetAccountsResponse" message="tns:IAccounts_GetAccounts_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/GetAccounts" name="CustomFaultException" message="tns:IAccounts_GetAccounts_CustomFaultException_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserAccounts">
+      <wsdl:input wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/GetUserAccounts" message="tns:IAccounts_GetUserAccounts_InputMessage" />
+      <wsdl:output wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/GetUserAccountsResponse" message="tns:IAccounts_GetUserAccounts_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/GetUserAccounts" name="CustomFaultException" message="tns:IAccounts_GetUserAccounts_CustomFaultException_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccount">
+      <wsdl:input wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/GetAccount" message="tns:IAccounts_GetAccount_InputMessage" />
+      <wsdl:output wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/GetAccountResponse" message="tns:IAccounts_GetAccount_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/GetAccount" name="CustomFaultException" message="tns:IAccounts_GetAccount_CustomFaultException_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDepositAccount">
+      <wsdl:input wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/GetDepositAccount" message="tns:IAccounts_GetDepositAccount_InputMessage" />
+      <wsdl:output wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/GetDepositAccountResponse" message="tns:IAccounts_GetDepositAccount_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/GetDepositAccount" name="CustomFaultException" message="tns:IAccounts_GetDepositAccount_CustomFaultException_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountDetail">
+      <wsdl:input wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/GetAccountDetail" message="tns:IAccounts_GetAccountDetail_InputMessage" />
+      <wsdl:output wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/GetAccountDetailResponse" message="tns:IAccounts_GetAccountDetail_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/GetAccountDetail" name="CustomFaultException" message="tns:IAccounts_GetAccountDetail_CustomFaultException_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUnusedAccountIds">
+      <wsdl:input wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/GetUnusedAccountIds" message="tns:IAccounts_GetUnusedAccountIds_InputMessage" />
+      <wsdl:output wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/GetUnusedAccountIdsResponse" message="tns:IAccounts_GetUnusedAccountIds_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/GetUnusedAccountIds" name="CustomFaultException" message="tns:IAccounts_GetUnusedAccountIds_CustomFaultException_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateAccount">
+      <wsdl:input wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/CreateAccount" message="tns:IAccounts_CreateAccount_InputMessage" />
+      <wsdl:output wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/CreateAccountResponse" message="tns:IAccounts_CreateAccount_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/CreateAccount" name="CustomFaultException" message="tns:IAccounts_CreateAccount_CustomFaultException_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AlterAccount">
+      <wsdl:input wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/AlterAccount" message="tns:IAccounts_AlterAccount_InputMessage" />
+      <wsdl:output wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/AlterAccountResponse" message="tns:IAccounts_AlterAccount_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/AlterAccount" name="CustomFaultException" message="tns:IAccounts_AlterAccount_CustomFaultException_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetStatementGenerationFrequency">
+      <wsdl:input wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/GetPrintingFrequency" message="tns:IAccounts_GetStatementGenerationFrequency_InputMessage" />
+      <wsdl:output wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/GetPrintingFrequencyResponse" message="tns:IAccounts_GetStatementGenerationFrequency_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/GetPrintingFrequency" name="CustomFaultException" message="tns:IAccounts_GetStatementGenerationFrequency_CustomFaultException_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountStatementDetail">
+      <wsdl:input wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/GetAccountStatementDetail" message="tns:IAccounts_GetAccountStatementDetail_InputMessage" />
+      <wsdl:output wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/GetAccountStatementDetailResponse" message="tns:IAccounts_GetAccountStatementDetail_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/GetAccountStatementDetail" name="CustomFaultException" message="tns:IAccounts_GetAccountStatementDetail_CustomFaultException_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CancelAccount">
+      <wsdl:input wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/CancelAccount" message="tns:IAccounts_CancelAccount_InputMessage" />
+      <wsdl:output wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/CancelAccountResponse" message="tns:IAccounts_CancelAccount_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/CancelAccount" name="CustomFaultException" message="tns:IAccounts_CancelAccount_CustomFaultException_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AlterAccountCollectionProcess">
+      <wsdl:input wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/AlterAccountCollectionProcess" message="tns:IAccounts_AlterAccountCollectionProcess_InputMessage" />
+      <wsdl:output wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/AlterAccountCollectionProcessResponse" message="tns:IAccounts_AlterAccountCollectionProcess_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/AlterAccountCollectionProcess" name="CustomFaultException" message="tns:IAccounts_AlterAccountCollectionProcess_CustomFaultException_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AlterAccountWithdrawalPermissions">
+      <wsdl:input wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/AlterAccountWithdrawalPermissions" message="tns:IAccounts_AlterAccountWithdrawalPermissions_InputMessage" />
+      <wsdl:output wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/AlterAccountWithdrawalPermissionsResponse" message="tns:IAccounts_AlterAccountWithdrawalPermissions_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/AlterAccountWithdrawalPermissions" name="CustomFaultException" message="tns:IAccounts_AlterAccountWithdrawalPermissions_CustomFaultException_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CancelBankbook">
+      <wsdl:input wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/CancelBankbook" message="tns:IAccounts_CancelBankbook_InputMessage" />
+      <wsdl:output wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/CancelBankbook" message="tns:IAccounts_CancelBankbook_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/CancelBankbook" name="CustomFaultException" message="tns:IAccounts_CancelBankbook_CustomFaultException_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AlterAccountIdentifier">
+      <wsdl:input wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/AlterAccountIdentifier" message="tns:IAccounts_AlterAccountIdentifier_InputMessage" />
+      <wsdl:output wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/AlterAccountIdentifierResponse" message="tns:IAccounts_AlterAccountIdentifier_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/AlterAccountIdentifier" name="CustomFaultException" message="tns:IAccounts_AlterAccountIdentifier_CustomFaultException_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AlterAccountOverdraftLimit">
+      <wsdl:input wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/AlterAccountOverdraftLimit" message="tns:IAccounts_AlterAccountOverdraftLimit_InputMessage" />
+      <wsdl:output wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/AlterAccountOverdraftLimitResponse" message="tns:IAccounts_AlterAccountOverdraftLimit_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/AlterAccountOverdraftLimit" name="CustomFaultException" message="tns:IAccounts_AlterAccountOverdraftLimit_CustomFaultException_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AlterAccountInterest">
+      <wsdl:input wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/AlterAccountInterest" message="tns:IAccounts_AlterAccountInterest_InputMessage" />
+      <wsdl:output wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/AlterAccountInterestResponse" message="tns:IAccounts_AlterAccountInterest_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/AlterAccountInterest" name="CustomFaultException" message="tns:IAccounts_AlterAccountInterest_CustomFaultException_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AlterAccountInterestEarned">
+      <wsdl:input wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/AlterAccountInterestEarned" message="tns:IAccounts_AlterAccountInterestEarned_InputMessage" />
+      <wsdl:output wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/AlterAccountInterestEarnedResponse" message="tns:IAccounts_AlterAccountInterestEarned_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/AlterAccountInterestEarned" name="CustomFaultException" message="tns:IAccounts_AlterAccountInterestEarned_CustomFaultException_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AlterAccountImminentAmount">
+      <wsdl:input wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/AlterAccountImminentAmount" message="tns:IAccounts_AlterAccountImminentAmount_InputMessage" />
+      <wsdl:output wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/AlterAccountImminentAmountResponse" message="tns:IAccounts_AlterAccountImminentAmount_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/AlterAccountImminentAmount" name="CustomFaultException" message="tns:IAccounts_AlterAccountImminentAmount_CustomFaultException_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetInterestCategoryDetail">
+      <wsdl:input wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/GetInterestCategoryDetail" message="tns:IAccounts_GetInterestCategoryDetail_InputMessage" />
+      <wsdl:output wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/GetInterestCategoryDetailResponse" message="tns:IAccounts_GetInterestCategoryDetail_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/GetInterestCategoryDetail" name="CustomFaultException" message="tns:IAccounts_GetInterestCategoryDetail_CustomFaultException_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetNotificationCodes">
+      <wsdl:input wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/GetNotificationCodes" message="tns:IAccounts_GetNotificationCodes_InputMessage" />
+      <wsdl:output wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/GetNotificationCodesResponse" message="tns:IAccounts_GetNotificationCodes_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/GetNotificationCodes" name="CustomFaultException" message="tns:IAccounts_GetNotificationCodes_CustomFaultException_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDisposableAmounts">
+      <wsdl:input wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/GetDisposableAmounts" message="tns:IAccounts_GetDisposableAmounts_InputMessage" />
+      <wsdl:output wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/GetDisposableAmountsResponse" message="tns:IAccounts_GetDisposableAmounts_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/GetDisposableAmounts" name="CustomFaultException" message="tns:IAccounts_GetDisposableAmounts_CustomFaultException_FaultMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="InternalBinding_IAccounts" type="tns:IAccounts">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsp:PolicyReference URI="#Policy2" />
+    <wsp:PolicyReference URI="#Policy3" />
+    <wsdl:operation name="Echo">
+      <soap12:operation soapAction="http://rb.b2b.is/schema/accounts/2012/06/01/Echo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="CustomFaultException">
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountStatement">
+      <soap12:operation soapAction="http://rb.b2b.is/schema/accounts/2012/06/01/GetAccountStatement" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="CustomFaultException">
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetValueDateBalance">
+      <soap12:operation soapAction="http://rb.b2b.is/schema/accounts/2012/06/01/GetValueDateBalance" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="CustomFaultException">
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccounts">
+      <soap12:operation soapAction="http://rb.b2b.is/schema/accounts/2012/06/01/GetAccounts" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="CustomFaultException">
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserAccounts">
+      <soap12:operation soapAction="http://rb.b2b.is/schema/accounts/2012/06/01/GetUserAccounts" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="CustomFaultException">
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccount">
+      <soap12:operation soapAction="http://rb.b2b.is/schema/accounts/2012/06/01/GetAccount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="CustomFaultException">
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetDepositAccount">
+      <soap12:operation soapAction="http://rb.b2b.is/schema/accounts/2012/06/01/GetDepositAccount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="CustomFaultException">
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountDetail">
+      <soap12:operation soapAction="http://rb.b2b.is/schema/accounts/2012/06/01/GetAccountDetail" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="CustomFaultException">
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetUnusedAccountIds">
+      <soap12:operation soapAction="http://rb.b2b.is/schema/accounts/2012/06/01/GetUnusedAccountIds" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="CustomFaultException">
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="CreateAccount">
+      <soap12:operation soapAction="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/CreateAccount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="CustomFaultException">
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="AlterAccount">
+      <soap12:operation soapAction="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/AlterAccount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="CustomFaultException">
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetStatementGenerationFrequency">
+      <soap12:operation soapAction="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/GetPrintingFrequency" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="CustomFaultException">
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountStatementDetail">
+      <soap12:operation soapAction="http://rb.b2b.is/schema/accounts/2012/06/01/GetAccountStatementDetail" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="CustomFaultException">
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="CancelAccount">
+      <soap12:operation soapAction="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/CancelAccount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="CustomFaultException">
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="AlterAccountCollectionProcess">
+      <soap12:operation soapAction="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/AlterAccountCollectionProcess" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="CustomFaultException">
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="AlterAccountWithdrawalPermissions">
+      <soap12:operation soapAction="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/AlterAccountWithdrawalPermissions" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="CustomFaultException">
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="CancelBankbook">
+      <soap12:operation soapAction="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/CancelBankbook" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="CustomFaultException">
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="AlterAccountIdentifier">
+      <soap12:operation soapAction="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/AlterAccountIdentifier" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="CustomFaultException">
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="AlterAccountOverdraftLimit">
+      <soap12:operation soapAction="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/AlterAccountOverdraftLimit" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="CustomFaultException">
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="AlterAccountInterest">
+      <soap12:operation soapAction="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/AlterAccountInterest" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="CustomFaultException">
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="AlterAccountInterestEarned">
+      <soap12:operation soapAction="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/AlterAccountInterestEarned" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="CustomFaultException">
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="AlterAccountImminentAmount">
+      <soap12:operation soapAction="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/AlterAccountImminentAmount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="CustomFaultException">
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetInterestCategoryDetail">
+      <soap12:operation soapAction="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/GetInterestCategoryDetail" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="CustomFaultException">
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetNotificationCodes">
+      <soap12:operation soapAction="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/GetNotificationCodes" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="CustomFaultException">
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetDisposableAmounts">
+      <soap12:operation soapAction="http://rb.b2b.is/schema/accounts/2012/06/01/IAccounts/GetDisposableAmounts" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="CustomFaultException">
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+        <soap12:fault use="literal" name="CustomFaultException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Accounts_vs0">
+    <wsdl:port name="InternalBinding_IAccountsdefault-httpscontainer-1021" binding="tns:InternalBinding_IAccounts">
+      <soap12:address location="https://gw.test.rb.is:443/b2b/v1/accounts" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

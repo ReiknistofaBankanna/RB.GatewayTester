@@ -1,0 +1,24 @@
+C:\code\Torg\Utils\RB.GatewayTester\RB.GatewayTester\bin\Debug\RB.GatewayTester.exe.config
+C:\code\Torg\Utils\RB.GatewayTester\RB.GatewayTester\bin\Debug\Certificate\rbtest.rb.is.pfx
+C:\code\Torg\Utils\RB.GatewayTester\RB.GatewayTester\bin\Debug\RB.GatewayTester.exe
+C:\code\Torg\Utils\RB.GatewayTester\RB.GatewayTester\bin\Debug\RB.GatewayTester.pdb
+C:\code\Torg\Utils\RB.GatewayTester\RB.GatewayTester\obj\Debug\RB.GatewayTester.exe
+C:\code\Torg\Utils\RB.GatewayTester\RB.GatewayTester\obj\Debug\RB.GatewayTester.pdb
+C:\code\Torg\Utils\RB.GatewayTester\RB.GatewayTester\bin\Debug\Certificate\rb_adfs_test_token_operations_public.cer
+C:\temp\RB.GatewayTester 4.5.0.1\bin\Debug\RB.GatewayTester.exe.config
+C:\temp\RB.GatewayTester 4.5.0.1\obj\Debug\RB.GatewayTester.exe
+C:\temp\RB.GatewayTester 4.5.0.1\obj\Debug\RB.GatewayTester.pdb
+C:\temp\RB.GatewayTester 4.5.0.1\bin\Debug\Certificate\rbtest.rb.is.pfx
+C:\temp\RB.GatewayTester 4.5.0.1\bin\Debug\Certificate\rb_adfs_test_token_operations_public.cer
+C:\temp\RB.GatewayTester 4.5.0.1\bin\Debug\RB.GatewayTester.exe
+C:\temp\RB.GatewayTester 4.5.0.1\bin\Debug\RB.GatewayTester.pdb
+C:\temp\RB.GatewayTester 4.5.0.1\obj\Debug\RB.GatewayTester.csprojResolveAssemblyReference.cache
+C:\Users\rb603\Downloads\RB.GatewayTester 4.5.0.1\bin\Debug\Certificate\rbtest.rb.is.pfx
+C:\Users\rb603\Downloads\RB.GatewayTester 4.5.0.1\bin\Debug\Certificate\rb_adfs_test_token_operations_public.cer
+C:\Users\rb603\Downloads\RB.GatewayTester 4.5.0.1\bin\Debug\RB.GatewayTester.exe.config
+C:\Users\rb603\Downloads\RB.GatewayTester 4.5.0.1\bin\Debug\RB.GatewayTester.exe
+C:\Users\rb603\Downloads\RB.GatewayTester 4.5.0.1\bin\Debug\RB.GatewayTester.pdb
+C:\Users\rb603\Downloads\RB.GatewayTester 4.5.0.1\obj\Debug\RB.GatewayTester.csprojAssemblyReference.cache
+C:\Users\rb603\Downloads\RB.GatewayTester 4.5.0.1\obj\Debug\RB.GatewayTester.csproj.CoreCompileInputs.cache
+C:\Users\rb603\Downloads\RB.GatewayTester 4.5.0.1\obj\Debug\RB.GatewayTester.exe
+C:\Users\rb603\Downloads\RB.GatewayTester 4.5.0.1\obj\Debug\RB.GatewayTester.pdb
