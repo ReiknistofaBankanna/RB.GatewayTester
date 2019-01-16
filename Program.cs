@@ -42,7 +42,6 @@ namespace RB.GatewayTester
 
             //Hér eru skilríkin lesin úr skrá, eðlilegra væri að lesa skilríkin úr "Certificate Store" á vélinni eins og má sjá hér fyrir neðan en til einföldunar
             //þá eru skilríkin lesin úr skrá.
-            /*
             #region Skilríki lesin úr skrá
             GenericXmlSecurityToken token = tm.CreateToken(
                            userName: "RB Testnotandi",
@@ -54,19 +53,19 @@ namespace RB.GatewayTester
                            signingCertPassword: "rbtest");
 
             #endregion
-            */
+
             //Hér eru skilríkin lesin úr "Certificate Store".  Ef þessi kóði er notaður í staðinn fyrir kóðan hér fyrir ofan þá þarf að setja skilríkin undir
             //Local Computer - Personal.
             #region Skilríki lesin úr certificate store
-            
+            /*
             GenericXmlSecurityToken token = tm.CreateToken(
                 userName: "RB Testnotandi",
                 personId: "4701110540",
                 fullName: "Reiknistofa Bankanna",
                 roles: new List<string>() { "5000-getdepaccount-test" },
-                encryptingCertSubject: "CN=rb_adfs_test_token_operations, OU=Operations, O=Reiknistofa bankanna hf, L=Reykjavik, S=Reykjavik, C=IS",
-                signingCertSubject: "CN=rbtest.rb.is");
-            
+                encryptingCertSubject: "SubjectForEncryptionCertificate",
+                signingCertSubject: "SubjectForSigningCertificate");            
+            */
             #endregion
 
             //ATH. þegar notuð eru eigin skilríki til að kalla á þjónustur RB þá þarf að láta RB fá public lykilinn fyrir það skilríki til að hægt sé að
